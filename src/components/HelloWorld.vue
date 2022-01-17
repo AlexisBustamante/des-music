@@ -1,0 +1,103 @@
+<template lang="pug">
+div
+    pm-notification(v-show="showNotification")
+     p(slot="body") no se encontraron registros 
+     
+    pm-loader(v-show="isLoading")
+    section.section(v-show="!isLoading")
+        nav.nav.has-shadow 
+            .container 
+                input.input.is-large(
+                    type="text", 
+                    placeholder="Buscar canciones" 
+                    v-model="searchQuery")
+                a.button.is-info.is-large(@click="search()") Buscar
+                a.button.is-danger.is-large &times; 
+                .container
+                    p 
+                        small {{serachMessage}}
+                        .container.results 
+                        .columns.is-multiline 
+                            .column.is-one-quarter(v-for="t in tracks") 
+                                pm-track(
+                                    :class="{'is-active':t.id===selectedTrack}",
+                                    :track="t", 
+                                    @select="setSelectedTrack")
+</template>
+
+<script>
+import trackservice from '../services/track'
+import PmTrack from '../components/track.vue';
+import PmLoader from '../components/shared/Loader.vue';
+import PmNotification from '../components/shared/notification.vue';
+
+export default {
+    name: 'HelloWorld',
+    data: () => ({
+        searchQuery: '',
+        tracks: [],
+        isLoading: false,
+        selectedTrack: '',
+        showNotification:false
+    }),
+    props: {
+        msg: String
+
+    },
+    methods: {
+        search() {
+
+            //si es blanco se impide ejecutar las siguientes lines d ecodigo
+            //sino se ejecuta callback
+            //Si no existe
+            if (!this.searchQuery) {
+                return
+            }
+
+            this.isLoading = true;
+            trackservice.serach(this.searchQuery)
+                .then(res => {
+                    this.showNotification=res.tracks.total===0
+                    this.tracks = res.tracks.items
+                    this.isLoading = false;
+                    //console.log(this.tracks)
+                })
+        },
+        setSelectedTrack(id) {
+            this.selectedTrack = id;
+        }
+
+    },
+    computed: {
+        serachMessage() {
+            return `Encontrados : ${this.tracks.length}`
+        }
+    },
+    watch: {
+        showNotification(){
+            if(this.showNotification){
+                setTimeout(()=>{
+                    this.showNotification=false;
+                },3000)
+            }
+        }
+    },
+    components: {
+        PmTrack,
+        PmLoader,
+        PmNotification
+    }
+}
+</script>
+
+<style lang="scss">
+@import '../scss/main.scss';
+
+.results {
+    margin-top: 50px
+}
+
+.is-active {
+    border: 3px #23d160 solid;
+}
+</style>
