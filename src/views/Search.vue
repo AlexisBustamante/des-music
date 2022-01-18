@@ -32,7 +32,7 @@ import PmLoader from '../components/shared/Loader.vue';
 import PmNotification from '../components/shared/notification.vue';
 
 export default {
-    name: 'home',
+    name: 'search',
     data: () => ({
         searchQuery: '',
         tracks: [],

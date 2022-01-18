@@ -1,31 +1,34 @@
 <template lang="pug">
-.content 
- p
-    img(:src="track.album.images[0].url")
- p 
-    strong {{track.name}}
-    small [{{track.duration_ms}}]
- p
-    audio(controls, :src="track.preview_url")    
+.content(v-if="track && track.album")
+    p
+        img(:src="track.album.images[0].url")
+    p 
+        strong {{track.name}}
+        small [{{track.duration_ms}}]
+    p
+        audio(controls, :src="track.preview_url")
 </template>
 
 <script>
 export default {
-    data:()=>({
-        track:{}
+    data: () => ({
+        track: {     
+        }
     }),
 
-created() {
-    this.$bus.$on('set-track',(track)=>{
-        this.track=track;
-    })
-},
+    created() {
+
+        this.$bus.$on('set-track', (track) => {
+            this.track = track;
+            console.log(this.track)
+        })
+    },
 
 }
 </script>
 
 <style lang="scss" scoped>
-img{
-    width:124px
+img {
+    width: 124px
 }
 </style>

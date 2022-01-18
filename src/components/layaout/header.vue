@@ -2,11 +2,13 @@
 section.hero.is-success
     .hero-head 
         header.nav 
-            .container
-                .nav-left 
-                    .nav-item 
-                    strong Des Music app
-                .nav-right.nav-menu 
+        .level
+            .level-left
+                strong Des Music app    
+            .level-right
+             .level-item.has-text-centered
+                 router-link.level-item(:to="{name:'search'}") Buscar
+                 router-link.level-item(to="about") Nosotros
     
     .hero-body 
         .container.has-text-centered 
