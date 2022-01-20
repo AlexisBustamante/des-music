@@ -9,8 +9,10 @@ div
             .container 
                 input.input.is-large(
                     type="text", 
-                    placeholder="Buscar canciones" 
-                    v-model="searchQuery")
+                    placeholder="Buscar canciones", 
+                    v-model="searchQuery",
+                    @keyup.enter="search()"
+                    )
                 a.button.is-info.is-large(@click="search()") Buscar
                 a.button.is-danger.is-large &times; 
                 .container
@@ -20,6 +22,7 @@ div
                         .columns.is-multiline 
                             .column.is-one-quarter(v-for="t in tracks") 
                                 pm-track(
+                                    v-blur="t.preview_url"
                                     :class="{'is-active':t.id===selectedTrack}",
                                     :track="t", 
                                     @select="setSelectedTrack")
@@ -59,8 +62,12 @@ export default {
                 .then(res => {
                     this.showNotification=res.tracks.total===0
                     this.tracks = res.tracks.items
-                    this.isLoading = false;
+
+                    //filtro solo los ue tienen un audio de prueba
+                   // this.tracks=this.tracks.filter(v=>v.preview_url!=null)
                     //console.log(this.tracks)
+
+                    this.isLoading = false;
                 })
         },
         setSelectedTrack(id) {

@@ -12,14 +12,14 @@
                 p.title.is-5 
                     strong {{track.name}}
                 p.subtitle.is-6 {{track.artists[0].name}}
-        .content 
-            small {{tiempo}}
-            nav.level
-                .level-left
-                    a.level-item 
-                        span.icon.is-small(@click="selectTrack()") 🎶
-                    a.level-item 
-                        span.icon.is-small(v-show="isLook", @click="goToTrack(track.id)") 👀
+            .content 
+                small {{this.track.duration_ms|ms-to-mm}}
+                nav.level
+                    .level-left
+                        button.level-item.button.is-primary 
+                            span.icon.is-small(@click="selectTrack()") 🎶
+                        button.level-item.button.is-warning(v-show="isLook")
+                            span.icon.is-small( @click="goToTrack(track.id)") 👀
 </template>
 
 <script>
@@ -43,6 +43,12 @@ export default {
     },
     methods: {
         selectTrack() {
+
+            //si no tienen url no s epuede dar click
+            if (!this.track.preview_url) {
+                return
+            }
+
             //se emite un evento al componente padre
             this.$emit('select', this.track.id)
 
@@ -50,6 +56,10 @@ export default {
             this.$bus.$emit('set-track', this.track)
         },
         goToTrack(id) {
+            if (!this.track.preview_url) {
+                return
+            }
+
             this.$router.push({
                 name: 'trackDetail',
                 params: {
@@ -63,24 +73,7 @@ export default {
 
     },
     computed: {
-        tiempo() {
-            var seconds = (this.track.duration_ms / 1000).toFixed(0);
-            var minutes = Math.floor(seconds / 60);
-            var hours = "";
-            if (minutes > 59) {
-                hours = Math.floor(minutes / 60);
-                hours = (hours >= 10) ? hours : "0" + hours;
-                minutes = minutes - (hours * 60);
-                minutes = (minutes >= 10) ? minutes : "0" + minutes;
-            }
 
-            seconds = Math.floor(seconds % 60);
-            seconds = (seconds >= 10) ? seconds : "0" + seconds;
-            if (hours != "") {
-                return hours + ":" + minutes + ":" + seconds;
-            }
-            return minutes + ":" + seconds;
-        }
     }
 }
 </script>
