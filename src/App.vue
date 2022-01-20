@@ -9,7 +9,6 @@
 // @ is an alias to /src
 import PmHeader from './components/layaout/header.vue';
 import PmFooter from './components/layaout/footer.vue';
-
 export default {
   name:'app',
   components: {

@@ -1,103 +1,151 @@
-<template lang="pug">
-div
-    pm-notification(v-show="showNotification")
-     p(slot="body") no se encontraron registros 
-     
-    pm-loader(v-show="isLoading")
-    section.section(v-show="!isLoading")
-        nav.nav.has-shadow 
-            .container 
-                input.input.is-large(
-                    type="text", 
-                    placeholder="Buscar canciones" 
-                    v-model="searchQuery")
-                a.button.is-info.is-large(@click="search()") Buscar
-                a.button.is-danger.is-large &times; 
-                .container
-                    p 
-                        small {{serachMessage}}
-                        .container.results 
-                        .columns.is-multiline 
-                            .column.is-one-quarter(v-for="t in tracks") 
-                                pm-track(
-                                    :class="{'is-active':t.id===selectedTrack}",
-                                    :track="t", 
-                                    @select="setSelectedTrack")
+<template>
+  <v-container>
+    <v-row class="text-center">
+      <v-col cols="12">
+        <v-img
+          :src="require('../assets/logo.svg')"
+          class="my-3"
+          contain
+          height="200"
+        />
+      </v-col>
+
+      <v-col class="mb-4">
+        <h1 class="display-2 font-weight-bold mb-3">
+          Welcome to Vuetify
+        </h1>
+
+        <p class="subheading font-weight-regular">
+          For help and collaboration with other Vuetify developers,
+          <br>please join our online
+          <a
+            href="https://community.vuetifyjs.com"
+            target="_blank"
+          >Discord Community</a>
+        </p>
+      </v-col>
+
+      <v-col
+        class="mb-5"
+        cols="12"
+      >
+        <h2 class="headline font-weight-bold mb-3">
+          What's next?
+        </h2>
+
+        <v-row justify="center">
+          <a
+            v-for="(next, i) in whatsNext"
+            :key="i"
+            :href="next.href"
+            class="subheading mx-3"
+            target="_blank"
+          >
+            {{ next.text }}
+          </a>
+        </v-row>
+      </v-col>
+
+      <v-col
+        class="mb-5"
+        cols="12"
+      >
+        <h2 class="headline font-weight-bold mb-3">
+          Important Links
+        </h2>
+
+        <v-row justify="center">
+          <a
+            v-for="(link, i) in importantLinks"
+            :key="i"
+            :href="link.href"
+            class="subheading mx-3"
+            target="_blank"
+          >
+            {{ link.text }}
+          </a>
+        </v-row>
+      </v-col>
+
+      <v-col
+        class="mb-5"
+        cols="12"
+      >
+        <h2 class="headline font-weight-bold mb-3">
+          Ecosystem
+        </h2>
+
+        <v-row justify="center">
+          <a
+            v-for="(eco, i) in ecosystem"
+            :key="i"
+            :href="eco.href"
+            class="subheading mx-3"
+            target="_blank"
+          >
+            {{ eco.text }}
+          </a>
+        </v-row>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import trackservice from '../services/track'
-import PmTrack from '../components/track.vue';
-import PmLoader from '../components/shared/Loader.vue';
-import PmNotification from '../components/shared/notification.vue';
-
-export default {
+  export default {
     name: 'HelloWorld',
+
     data: () => ({
-        searchQuery: '',
-        tracks: [],
-        isLoading: false,
-        selectedTrack: '',
-        showNotification:false
-    }),
-    props: {
-        msg: String
-
-    },
-    methods: {
-        search() {
-
-            //si es blanco se impide ejecutar las siguientes lines d ecodigo
-            //sino se ejecuta callback
-            //Si no existe
-            if (!this.searchQuery) {
-                return
-            }
-
-            this.isLoading = true;
-            trackservice.serach(this.searchQuery)
-                .then(res => {
-                    this.showNotification=res.tracks.total===0
-                    this.tracks = res.tracks.items
-                    this.isLoading = false;
-                    //console.log(this.tracks)
-                })
+      ecosystem: [
+        {
+          text: 'vuetify-loader',
+          href: 'https://github.com/vuetifyjs/vuetify-loader',
         },
-        setSelectedTrack(id) {
-            this.selectedTrack = id;
-        }
-
-    },
-    computed: {
-        serachMessage() {
-            return `Encontrados : ${this.tracks.length}`
-        }
-    },
-    watch: {
-        showNotification(){
-            if(this.showNotification){
-                setTimeout(()=>{
-                    this.showNotification=false;
-                },3000)
-            }
-        }
-    },
-    components: {
-        PmTrack,
-        PmLoader,
-        PmNotification
-    }
-}
+        {
+          text: 'github',
+          href: 'https://github.com/vuetifyjs/vuetify',
+        },
+        {
+          text: 'awesome-vuetify',
+          href: 'https://github.com/vuetifyjs/awesome-vuetify',
+        },
+      ],
+      importantLinks: [
+        {
+          text: 'Documentation',
+          href: 'https://vuetifyjs.com',
+        },
+        {
+          text: 'Chat',
+          href: 'https://community.vuetifyjs.com',
+        },
+        {
+          text: 'Made with Vuetify',
+          href: 'https://madewithvuejs.com/vuetify',
+        },
+        {
+          text: 'Twitter',
+          href: 'https://twitter.com/vuetifyjs',
+        },
+        {
+          text: 'Articles',
+          href: 'https://medium.com/vuetify',
+        },
+      ],
+      whatsNext: [
+        {
+          text: 'Explore components',
+          href: 'https://vuetifyjs.com/components/api-explorer',
+        },
+        {
+          text: 'Select a layout',
+          href: 'https://vuetifyjs.com/getting-started/pre-made-layouts',
+        },
+        {
+          text: 'Frequently Asked Questions',
+          href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
+        },
+      ],
+    }),
+  }
 </script>
-
-<style lang="scss">
-@import '../scss/main.scss';
-
-.results {
-    margin-top: 50px
-}
-
-.is-active {
-    border: 3px #23d160 solid;
-}
-</style>
