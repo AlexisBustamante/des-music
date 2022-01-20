@@ -62,11 +62,9 @@ export default {
                 .then(res => {
                     this.showNotification=res.tracks.total===0
                     this.tracks = res.tracks.items
-
                     //filtro solo los ue tienen un audio de prueba
                    // this.tracks=this.tracks.filter(v=>v.preview_url!=null)
                     //console.log(this.tracks)
-
                     this.isLoading = false;
                 })
         },
