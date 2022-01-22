@@ -7,7 +7,7 @@
         .media 
             .media-left 
                 figure.image.is-48x48
-                    img(:src="track.album.images[1].url")
+                    img(:src="track.album.images[0].url")
             .media-content 
                 p.title.is-5 
                     strong {{track.name}}
@@ -17,16 +17,17 @@
                 nav.level
                     .level-left
                         button.level-item.button.is-primary 
-                            span.icon.is-small(@click="selectTrack()") 🎶
+                            span.icon.is-small( @click="selectTrack()") 🎶
                         button.level-item.button.is-warning(v-show="isLook")
                             span.icon.is-small( @click="goToTrack(track.id)") 👀
 </template>
 
 <script>
-export default {
-    data: () => ({
+import trackMixin from '../mixins/track';
 
-    }),
+export default {
+    mixins: [trackMixin],
+    data: () => ({}),
     props: {
         track: {
             type: Object,
@@ -42,19 +43,7 @@ export default {
 
     },
     methods: {
-        selectTrack() {
 
-            //si no tienen url no s epuede dar click
-            if (!this.track.preview_url) {
-                return
-            }
-
-            //se emite un evento al componente padre
-            this.$emit('select', this.track.id)
-
-            //se emite un evento a otro componente
-            this.$bus.$emit('set-track', this.track)
-        },
         goToTrack(id) {
             if (!this.track.preview_url) {
                 return

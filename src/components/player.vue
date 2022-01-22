@@ -6,7 +6,7 @@
         strong {{track.name}}
         small [{{track.duration_ms|ms-to-mm}}]
     p
-        audio(controls, :src="track.preview_url")
+        audio(controls, :src="track.preview_url" :autoplay="true")
 </template>
 
 <script>
@@ -20,7 +20,7 @@ export default {
 
         this.$bus.$on('set-track', (track) => {
             this.track = track;
-            console.log(this.track)
+            //console.log(this.track)
         })
     },
 
