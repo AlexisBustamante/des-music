@@ -1,5 +1,5 @@
 <template lang="pug">
-.title {{track.name}}
+.title {{trackTitle}}
     .subtitle(v-if="track && track.album") {{track.album.artists[0].name}}
         .subtitle 
         b Fecha lanzamiento: 
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 
 export default {
     data: () => ({
@@ -25,6 +26,7 @@ export default {
         },
     },
     computed: {
+        ...mapGetters(['trackTitle']),
         tiempo() {
 
             var seconds = (this.track.duration_ms / 1000).toFixed(0);

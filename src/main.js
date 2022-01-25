@@ -8,6 +8,7 @@ import vuetify from './plugins/vuetify'
 import msToMm from './filters/ms-to-mm'
 import blur from './directives/blur'
 
+
 Vue.config.productionTip = false
 Vue.use(EventBus)
 Vue.use(msToMm)

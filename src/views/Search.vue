@@ -16,7 +16,7 @@ div
                     @keyup.enter="search()"
                     )
                 a.button.is-info.is-large(@click="search()") Buscar
-                a.button.is-danger.is-large &times; 
+                a.button.is-danger.is-large(@click="searchQuery=''")  &times;
                 .container
                     p 
                         small {{serachMessage}}

@@ -10,19 +10,13 @@
 </template>
 
 <script>
+import {
+    mapState
+} from 'vuex'
 export default {
-    data: () => ({
-        track: {     
-        }
-    }),
-
-    created() {
-
-        this.$bus.$on('set-track', (track) => {
-            this.track = track;
-            //console.log(this.track)
-        })
-    },
+    computed: {
+        ...mapState(['track'])
+    }
 
 }
 </script>

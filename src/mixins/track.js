@@ -11,7 +11,10 @@ const trackMixin = {
             this.$emit('select', this.track.id)
 
             //se emite un evento a otro componente
-            this.$bus.$emit('set-track', this.track)
+            //this.$bus.$emit('set-track', this.track)
+
+            //usando una mutation del objeto store
+            this.$store.commit('setTrack',this.track)
         }
     },
 }

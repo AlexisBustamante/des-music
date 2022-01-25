@@ -1,5 +1,5 @@
 <template lang="pug">
-.container 
+.container(v-if="track && track.id") 
     .columns 
         .column.is-3.has-text-centered
             figure.media-left
@@ -11,34 +11,43 @@
 </template>
 
 <script>
-import trackService from '../services/track';
 import trackMixin from '../mixins/track';
 //import PmTrack from './track.vue';
 import PmInfo from './trackInfo.vue';
+import {mapState,mapActions} from 'vuex'
+
 export default {
     mixins: [trackMixin],
     data: () => ({
-        track: {
-            album:{
-                images:[{url:''}]
-            }
-        },
+        
         isLook: false
 
     }),
     components: {
         PmInfo
     },
+    computed:{
+        //binding del store
+        ...mapState(['track']),
+    },
     created() {
         this.isLook = false;
-
         const id = this.$route.params.id;
-        trackService.getById(id)
-            .then(res => {
-                this.track = res;
-                console.log(this.track)
-            })
-    }
+
+        if(!this.track||this.track.id||this.track.id!=id){
+            //se ejecuta la actions del store mapiada en methods
+             this.getTrackById({id})
+             .then(()=>{
+                 console.log('track loaded...')
+             })
+        }
+
+
+        
+    },
+    methods: {
+        ...mapActions(['getTrackById'])
+    },
 }
 </script>
 
