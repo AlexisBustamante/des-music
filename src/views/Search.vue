@@ -1,9 +1,11 @@
 <template lang="pug">
 div
-    pm-notification(v-show="showNotification")
-     p(slot="body") no se encontraron registros 
-     
-    pm-loader(v-show="isLoading")
+    transition(name="move") 
+        pm-notification(v-show="showNotification")
+            p(slot="body") no se encontraron registros 
+
+    transition(name="move") 
+        pm-loader(v-show="isLoading")
     section.section(v-show="!isLoading")
         nav.nav.has-shadow 
             .container 

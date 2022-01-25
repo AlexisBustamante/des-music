@@ -8,7 +8,7 @@
             p Duración
             p {{tiempo}}
 
-            a(:href="track.album.external_urls.spotify", target="_blank")  
+            a.is-48x48(:href="track.album.external_urls.spotify", target="_blank")  
                 img(src="../assets/spotifyLogo.png")
 </template>
 

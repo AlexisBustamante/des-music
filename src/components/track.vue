@@ -16,10 +16,10 @@
                 small {{this.track.duration_ms|ms-to-mm}}
                 nav.level
                     .level-left
-                        button.level-item.button.is-primary 
-                            span.icon.is-small( @click="selectTrack()") 🎶
-                        button.level-item.button.is-warning(v-show="isLook")
-                            span.icon.is-small( @click="goToTrack(track.id)") 👀
+                        button.level-item.button.is-primary( @click="selectTrack()")
+                            span.icon.is-small ▶
+                        button.level-item.button.is-warning(v-show="isLook", @click="goToTrack(track.id)")
+                            span.icon.is-small 👀
 </template>
 
 <script>
